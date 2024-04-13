@@ -1,4 +1,4 @@
 #![allow(dead_code)]
 
-mod keyv;
-mod store;
+pub mod keyv;
+pub mod store;
