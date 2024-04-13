@@ -1,4 +1,7 @@
 [workspace]
 members = [
     "crates/keyv",
+    "crates/keyv-postgres",
 ]
+
+resolver = "2"
