@@ -1,5 +1,5 @@
 mod errors;
-mod keyv;
-
 pub use errors::*;
+
+mod keyv;
 pub use keyv::*;
