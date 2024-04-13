@@ -3,15 +3,16 @@ use serde_json::{json, Value};
 
 use crate::store::{KeyvError, Store};
 
-pub struct Keyv {
-    store: Box<dyn Store>,
+pub struct Keyv<S: Store> {
+    store: S,
 }
 
-impl Keyv {
-    pub fn new<S: Into<Box<dyn Store>>>(store: S) -> Self {
-        Keyv {
-            store: store.into(),
-        }
+impl<S> Keyv<S>
+where
+    S: Store,
+{
+    pub fn new(store: S) -> Self {
+        Keyv { store }
     }
 
     pub async fn set<T: Serialize>(&self, key: &str, value: T) -> Result<(), KeyvError> {
