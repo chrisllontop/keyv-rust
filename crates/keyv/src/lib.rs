@@ -1,4 +1,9 @@
 #![allow(dead_code)]
 
-pub mod keyv;
-pub mod store;
+pub const DEFAUTL_TABLE_NAME: &str = "keyv";
+
+mod keyv;
+pub use keyv::*;
+
+mod store;
+pub use store::*;
