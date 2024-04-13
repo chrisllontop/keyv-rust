@@ -4,7 +4,7 @@ use serde_json::Value;
 use super::KeyvError;
 
 #[async_trait]
-pub trait Store {
+pub trait Store: Send + Sync {
     async fn initialize(&self) -> Result<(), KeyvError>;
 
     // Retrieves a value based on a key.
