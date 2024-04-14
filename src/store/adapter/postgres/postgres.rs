@@ -1,9 +1,10 @@
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use keyv::{Store, StoreError};
 use serde_json::Value;
 use sqlx::{PgPool, Row};
+
+use crate::{Store, StoreError};
 
 pub struct PostgresStore {
     pub(crate) pool: Arc<PgPool>,

@@ -1,6 +1,7 @@
-use keyv::Keyv;
-use keyv_postgres::PostgresStoreBuilder;
+#[cfg(feature = "postgres")]
+use keyv::{adapter::postgres::PostgresStoreBuilder, Keyv};
 
+#[cfg(feature = "postgres")]
 #[tokio::test]
 async fn test_keyv_postgres() {
     let store = PostgresStoreBuilder::new()

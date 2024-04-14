@@ -1,9 +1,11 @@
 use std::sync::Arc;
 
-use keyv::{StoreError, DEFAUTL_TABLE_NAME};
 use sqlx::{postgres::PgPoolOptions, PgPool};
 
-use crate::store::PostgresStore;
+use crate::{StoreError, DEFAUTL_TABLE_NAME};
+
+use super::PostgresStore;
+
 /// Builder for creating a `PostgresStore`.
 ///
 /// This builder allows for configuring a `PostgresStore` with custom
@@ -16,7 +18,7 @@ use crate::store::PostgresStore;
 /// ## Initializing with a Database URI
 ///
 /// ```rust,no_run
-/// # use keyv_postgres::{PostgresStoreBuilder};
+/// # use keyv::adapter::postgres::{PostgresStoreBuilder};
 /// # use std::sync::Arc;
 /// # #[tokio::main]
 /// # async fn main(){
@@ -31,7 +33,7 @@ use crate::store::PostgresStore;
 /// ## Using an Existing Connection Pool
 ///
 /// ```rust,no_run
-/// # use keyv_postgres::{PostgresStoreBuilder};
+/// # use keyv::adapter::postgres::{PostgresStoreBuilder};
 /// # use std::sync::Arc;
 /// # #[tokio::main]
 /// # async fn main() {

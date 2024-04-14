@@ -1,9 +1,10 @@
 use std::sync::Arc;
 
-use keyv::StoreError;
 use redis::Client;
 
-use crate::RedisStore;
+use crate::StoreError;
+
+use super::RedisStore;
 
 pub struct RedisStoreBuilder {
     connection_string: Option<String>,

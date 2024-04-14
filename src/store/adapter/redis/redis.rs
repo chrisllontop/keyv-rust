@@ -1,9 +1,10 @@
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use keyv::{Store, StoreError};
 use redis::{Client, Commands};
 use serde_json::Value;
+
+use crate::{Store, StoreError};
 
 pub struct RedisStore {
     pub(crate) client: Arc<Client>,
