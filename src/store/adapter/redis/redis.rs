@@ -74,6 +74,7 @@ impl Store for RedisStore {
     }
 
     async fn clear(&self) -> Result<(), StoreError> {
+        log::warn!("Clearing the Redis store is not supported.");
         Ok(())
     }
 }
