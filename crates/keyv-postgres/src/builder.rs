@@ -66,6 +66,19 @@ impl PostgresStoreBuilder {
         }
     }
 
+    /// Sets the schema name for the `PostgresStore`.
+    ///
+    /// This method configures the schema name to be used by the store. If not set,
+    /// a default schema (usually "public" in PostgreSQL) will be used.
+    ///
+    /// # Arguments
+    ///
+    /// * `schema` - The name of the schema.
+    pub fn schema<S: Into<String>>(mut self, schema: S) -> Self {
+        self.schema = Some(schema.into());
+        self
+    }
+
     /// Sets the table name for the `PostgresStore`.
     ///
     /// This method configures the table name to be used by the store. If not set,
