@@ -9,11 +9,13 @@
 
 ## Usage
 
-Install Keyv.
+### Instalation
 
 ```
 cargo add  keyv
 ```
+
+### Initialization
 
 By default everything is stored in memory, you can optionally also install a storage adapter.
 
@@ -24,6 +26,8 @@ By default everything is stored in memory, you can optionally also install a sto
 - Postgres
 
   ```rust
+     use keyv::{adapter::postgres::PostgresStoreBuilder, Keyv};
+
      let store = PostgresStoreBuilder::new()
          .uri("postgresql://postgres:postgres@localhost:5432")
          .table_name("custom_table_name")
@@ -36,6 +40,8 @@ By default everything is stored in memory, you can optionally also install a sto
 - Redis
 
   ```rust
+    use keyv::{adapter::redis::RedisStoreBuilder, Keyv};
+
     let store = RedisStoreBuilder::new()
         .uri("redis://localhost:6379")
         .default_ttl(3600)
@@ -45,3 +51,48 @@ By default everything is stored in memory, you can optionally also install a sto
 
      let keyv = Keyv::try_new(store).await.unwrap();
   ```
+
+### Interacting with Store
+
+```rust
+
+use keyv::Keyv;
+
+#[tokio::main]
+async fn main() {
+    let keyv = Keyv::default();
+    keyv.set("number", 42).await.unwrap();
+    keyv.set("number", 10).await.unwrap();
+    keyv.set("array", vec!["hola", "test"]).await.unwrap();
+    keyv.set("string", "life long").await.unwrap();
+
+    match keyv.get("number").await.unwrap() {
+        Some(number) => {
+            let number: i32 = serde_json::from_value(number).unwrap();
+            assert_eq!(number, 10);
+        }
+        None => assert!(false),
+    }
+
+    match keyv.get("string").await.unwrap() {
+        Some(string) => {
+            let string: String = serde_json::from_value(string).unwrap();
+            assert_eq!(string, "life long");
+        }
+        None => assert!(false),
+    }
+
+    match keyv.get("array").await.unwrap() {
+        Some(array) => {
+            let array: Vec<String> = serde_json::from_value(array).unwrap();
+            assert_eq!(array, vec!["hola".to_string(), "test".to_string()])
+        }
+        None => assert!(false),
+    }
+
+    match keyv.remove_many(&["number", "string"]).await {
+        Ok(_) => {}
+        Err(_) => assert!(false),
+    }
+}
+```
