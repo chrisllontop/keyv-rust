@@ -1,7 +1,7 @@
 [workspace]
 members = [
     "crates/keyv",
-    "crates/keyv-postgres",
+    "crates/keyv-postgres", "crates/keyv-redis",
 ]
 
 resolver = "2"
