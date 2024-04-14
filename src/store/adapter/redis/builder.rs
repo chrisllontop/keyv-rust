@@ -10,6 +10,7 @@ pub struct RedisStoreBuilder {
     connection_string: Option<String>,
     client: Option<Arc<Client>>,
     default_ttl: Option<u64>,
+    namespace: Option<String>, // Adding namespace option
 }
 
 /// Builder for creating a `RedisStore`.
@@ -72,7 +73,20 @@ impl RedisStoreBuilder {
             connection_string: None,
             client: None,
             default_ttl: None,
+            namespace: None,
         }
+    }
+
+    /// Sets the namespace for the keys in the `RedisStore`.
+    ///
+    /// This method configures a namespace prefix that will be prepended to all key names.
+    ///
+    /// # Arguments
+    ///
+    /// * `namespace` - The namespace as a string.
+    pub fn namespace<S: Into<String>>(mut self, namespace: S) -> Self {
+        self.namespace = Some(namespace.into());
+        self
     }
 
     /// Sets the connection string for connecting to the Redis database.
@@ -139,6 +153,7 @@ impl RedisStoreBuilder {
         Ok(RedisStore {
             client,
             default_ttl: self.default_ttl,
+            namespace: self.namespace,
         })
     }
 }
