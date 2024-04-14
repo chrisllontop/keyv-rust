@@ -138,14 +138,10 @@ impl PostgresStoreBuilder {
             }
         };
 
-        let full_table_name = match self.schema {
-            Some(schema) => format!("{}.{}", schema, self.table_name),
-            None => self.table_name,
-        };
-
         Ok(PostgresStore {
             pool,
-            table_name: full_table_name,
+            table_name: self.table_name,
+            schema: self.schema,
         })
     }
 }
