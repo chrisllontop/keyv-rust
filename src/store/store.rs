@@ -26,7 +26,7 @@ pub trait Store: Send + Sync {
     /// Returns Result<(), KeyvError> to indicate the operation was successful or encountered an error.
     async fn remove(&self, key: &str) -> Result<(), StoreError>;
 
-    async fn remove_many<T: AsRef<str> + Sync>(&self, keys: &[T]) -> Result<(), StoreError>;
+    async fn remove_many(&self, keys: &[&str]) -> Result<(), StoreError>;
 
     async fn clear(&self) -> Result<(), StoreError>;
 }

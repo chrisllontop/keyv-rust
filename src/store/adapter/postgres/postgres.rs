@@ -101,13 +101,11 @@ impl Store for PostgresStore {
         Ok(())
     }
 
-    async fn remove_many<T: AsRef<str> + Sync>(&self, keys: &[T]) -> Result<(), StoreError> {
-        let keys_str: Vec<&str> = keys.iter().map(|k| k.as_ref()).collect();
-
+    async fn remove_many(&self, keys: &[&str]) -> Result<(), StoreError> {
         let query = format!("DELETE FROM {} WHERE key = ANY($1)", self.get_table_name());
 
         sqlx::query(&query)
-            .bind(&keys_str)
+            .bind(&keys)
             .execute(&*self.pool)
             .await
             .map_err(|_| StoreError::QueryError("Failed to remove the keys".to_string()))?;

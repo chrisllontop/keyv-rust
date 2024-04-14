@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use serde::Serialize;
 use serde_json::{json, Value};
 
@@ -5,17 +7,16 @@ use crate::store::Store;
 
 use super::KeyvError;
 
-pub struct Keyv<S: Store> {
-    store: S,
+pub struct Keyv {
+    store: Arc<dyn Store>,
 }
 
-impl<S> Keyv<S>
-where
-    S: Store,
-{
-    pub async fn try_new(store: S) -> Result<Self, KeyvError> {
+impl Keyv {
+    pub async fn try_new<S: Store + 'static>(store: S) -> Result<Self, KeyvError> {
         store.initialize().await?;
-        Ok(Self { store })
+        Ok(Self {
+            store: Arc::new(store),
+        })
     }
 
     pub async fn set<T: Serialize>(&self, key: &str, value: T) -> Result<(), KeyvError> {
@@ -40,7 +41,8 @@ where
     }
 
     pub async fn remove_many<T: AsRef<str> + Sync>(&self, keys: &[T]) -> Result<(), KeyvError> {
-        Ok(self.store.remove_many(keys).await?)
+        let keys: Vec<&str> = keys.iter().map(|k| k.as_ref()).collect();
+        Ok(self.store.remove_many(&keys).await?)
     }
 
     pub async fn clear(&self) -> Result<(), KeyvError> {

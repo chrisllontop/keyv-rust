@@ -62,14 +62,13 @@ impl Store for RedisStore {
         Ok(())
     }
 
-    async fn remove_many<T: AsRef<str> + Sync>(&self, keys: &[T]) -> Result<(), StoreError> {
+    async fn remove_many(&self, keys: &[&str]) -> Result<(), StoreError> {
         let mut conn = self
             .client
             .get_connection()
             .map_err(|e| StoreError::ConnectionError(e.to_string()))?;
-        let keys_str: Vec<&str> = keys.iter().map(|k| k.as_ref()).collect();
 
-        conn.del(keys_str)
+        conn.del(keys)
             .map_err(|e| StoreError::QueryError(e.to_string()))?;
         Ok(())
     }
