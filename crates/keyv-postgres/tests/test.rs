@@ -5,6 +5,7 @@ use keyv_postgres::PostgresStoreBuilder;
 async fn test_keyv_postgres() {
     let store = PostgresStoreBuilder::new()
         .uri("postgresql://postgres:postgres@localhost:5432")
+        .schema("cache")
         .build()
         .await
         .unwrap();
