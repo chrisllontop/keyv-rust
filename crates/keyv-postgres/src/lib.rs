@@ -1,4 +1,4 @@
 #![allow(dead_code)]
 
-mod builder;
-mod store;
+pub mod builder;
+pub mod store;
