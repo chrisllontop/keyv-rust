@@ -3,7 +3,7 @@ use std::sync::Arc;
 use serde::Serialize;
 use serde_json::{json, Value};
 
-use crate::store::Store;
+use crate::{adapter::inmemory::InMemoryStore, store::Store};
 
 use super::KeyvError;
 
@@ -47,5 +47,13 @@ impl Keyv {
 
     pub async fn clear(&self) -> Result<(), KeyvError> {
         Ok(self.store.clear().await?)
+    }
+}
+
+impl Default for Keyv {
+    fn default() -> Self {
+        Self {
+            store: Arc::new(InMemoryStore::new()),
+        }
     }
 }
