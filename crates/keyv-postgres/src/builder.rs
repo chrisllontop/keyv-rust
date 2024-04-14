@@ -15,40 +15,35 @@ use crate::store::PostgresStore;
 ///
 /// ## Initializing with a Database URI
 ///
-/// ```no_run
-/// # use your_crate::{PostgresStoreBuilder, KeyvError};
+/// ```rust,no_run
+/// # use keyv_postgres::{PostgresStoreBuilder};
 /// # use std::sync::Arc;
-/// # use sqlx::PgPool;
 /// # #[tokio::main]
-/// # async fn main() -> Result<(), KeyvError> {
+/// # async fn main(){
 /// let store = PostgresStoreBuilder::new()
 ///     .uri("postgres://username:password@localhost/database")
 ///     .table_name("custom_table_name")
 ///     .build()
-///     .await?;
-/// # Ok(())
-/// # }
+///     .await.unwrap();
+///  }
 /// ```
 ///
 /// ## Using an Existing Connection Pool
 ///
-/// ```no_run
-/// # use your_crate::{PostgresStoreBuilder, KeyvError};
+/// ```rust,no_run
+/// # use keyv_postgres::{PostgresStoreBuilder};
 /// # use std::sync::Arc;
-/// # use sqlx::{PgPool, PgPoolOptions};
 /// # #[tokio::main]
-/// # async fn main() -> Result<(), KeyvError> {
-/// let pool: Arc<PgPool> = Arc::new(PgPoolOptions::new()
-///     .connect("postgres://username:password@localhost/database")
-///     .await?);
+/// # async fn main() {
+/// let pool: Arc<sqlx::PgPool> = Arc::new(sqlx::postgres::PgPoolOptions::new()
+///     .connect("postgres://username:password@localhost/database").await.unwrap());
 ///
 /// let store = PostgresStoreBuilder::new()
 ///     .pool(pool)
 ///     .table_name("custom_table_name")
 ///     .build()
-///     .await?;
-/// # Ok(())
-/// # }
+///     .await.unwrap();
+///  }
 /// ```
 pub struct PostgresStoreBuilder {
     uri: Option<String>,
