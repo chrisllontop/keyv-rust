@@ -54,6 +54,7 @@ pub struct PostgresStoreBuilder {
     uri: Option<String>,
     pool: Option<Arc<PgPool>>,
     table_name: String,
+    schema: Option<String>,
 }
 
 /// Creates a new builder instance with default configuration.
@@ -66,6 +67,7 @@ impl PostgresStoreBuilder {
             uri: None,
             pool: None,
             table_name: DEFAUTL_TABLE_NAME.to_string(),
+            schema: None,
         }
     }
 
@@ -122,18 +124,20 @@ impl PostgresStoreBuilder {
                 let uri = self
                     .uri
                     .expect("PostgresStore requires either a URI or an existing pool to be set");
-                Arc::new(
-                    PgPoolOptions::new()
-                        .connect(&uri)
-                        .await
-                        .map_err(|e| StoreError::ConnectionError(e.to_string()))?,
-                )
+                Arc::new(PgPoolOptions::new().connect(&uri).await.map_err(|_| {
+                    StoreError::ConnectionError("Failed to connect to the database".to_string())
+                })?)
             }
+        };
+
+        let full_table_name = match self.schema {
+            Some(schema) => format!("{}.{}", schema, self.table_name),
+            None => self.table_name,
         };
 
         Ok(PostgresStore {
             pool,
-            table_name: self.table_name,
+            table_name: full_table_name,
         })
     }
 }
