@@ -84,6 +84,20 @@ mod tests {
             db_lock.remove(key);
             Ok(())
         }
+
+        async fn clear(&self) -> Result<(), StoreError> {
+            let mut db_lock = self.db.lock().unwrap();
+            db_lock.clear();
+            Ok(())
+        }
+
+        async fn remove_many<T: AsRef<str> + Sync>(&self, keys: &[T]) -> Result<(), StoreError> {
+            let mut db_lock = self.db.lock().unwrap();
+            for key in keys {
+                db_lock.remove(key.as_ref());
+            }
+            Ok(())
+        }
     }
 
     use super::*;
