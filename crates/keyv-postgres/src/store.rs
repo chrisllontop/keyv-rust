@@ -16,8 +16,7 @@ impl Store for PostgresStore {
         let sql = format!(
             "CREATE TABLE IF NOT EXISTS {} (
             key VARCHAR PRIMARY KEY,
-            value TEXT NOT NULL,
-            ttl BIGINT
+            value TEXT NOT NULL
         )",
             self.table_name
         );
@@ -43,17 +42,20 @@ impl Store for PostgresStore {
     }
 
     async fn set(&self, key: &str, value: Value, ttl: Option<u64>) -> Result<(), StoreError> {
+        if ttl.is_some() {
+            log::warn!("Postgres store does not support TTL");
+        }
+
         let value_str = serde_json::to_string(&value)
             .map_err(|e| StoreError::SerializationError { source: e })?;
 
         let sql = format!(
-            "INSERT INTO {} (key, value, ttl) VALUES ($1, $2, $3) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, ttl = EXCLUDED.ttl",
+            "INSERT INTO {} (key, value) VALUES ($1, $2) ON CONFLICT(key) DO UPDATE SET value = EXCLUDED.value",
             self.table_name
         );
         sqlx::query(&sql)
             .bind(key)
             .bind(value_str)
-            .bind(ttl.map(|t| t as i64))
             .execute(&*self.pool)
             .await
             .map_err(|_| StoreError::QueryError("Failed to set the value".to_string()))?;
@@ -73,13 +75,12 @@ impl Store for PostgresStore {
     }
 
     async fn remove_many<T: AsRef<str> + Sync>(&self, keys: &[T]) -> Result<(), StoreError> {
-        // Prepare a vector of &str from the input
         let keys_str: Vec<&str> = keys.iter().map(|k| k.as_ref()).collect();
 
         let query = format!("DELETE FROM {} WHERE key = ANY($1)", self.table_name);
 
         sqlx::query(&query)
-            .bind(&keys_str) // Bind the vector of &str references
+            .bind(&keys_str)
             .execute(&*self.pool)
             .await
             .map_err(|_| StoreError::QueryError("Failed to remove the keys".to_string()))?;
