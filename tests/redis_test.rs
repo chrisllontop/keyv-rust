@@ -1,6 +1,9 @@
 #[cfg(feature = "redis")]
 use keyv::{adapter::redis::RedisStoreBuilder, Keyv};
 
+/* To run the test run the docker mysql
+docker run --name keyv-redis-test -p 6379:6379 -d redis:latest
+*/
 #[cfg(feature = "redis")]
 #[tokio::test]
 async fn test_keyv_redis() {

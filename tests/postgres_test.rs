@@ -1,6 +1,14 @@
 #[cfg(feature = "postgres")]
 use keyv::{adapter::postgres::PostgresStoreBuilder, Keyv};
 
+/* To run the test run the docker mysql
+docker run --name keyv-postgres-test \
+-e POSTGRES_USER=postgres \
+-e POSTGRES_PASSWORD=postgres \
+-e POSTGRES_DB=keyv_test \
+-p 5432:5432 \
+-d postgres:latest
+*/
 #[cfg(feature = "postgres")]
 #[tokio::test]
 async fn test_keyv_postgres() {
