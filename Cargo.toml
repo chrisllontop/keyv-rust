@@ -21,6 +21,7 @@ redis = { version = "0.23.0", optional = true }
 
 [features]
 postgres = ["sqlx/postgres", "sqlx/runtime-tokio-rustls"]
+mysql = ["sqlx/mysql", "sqlx/runtime-tokio-rustls"] 
 redis = ["dep:redis"]
-full = ["postgres", "redis"]
+full = ["postgres", "mysql", "redis"] 
 default = []
