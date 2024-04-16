@@ -1,4 +1,4 @@
-use sqlx::{mysql::MySqlPoolOptions, MySqlPool};
+pub use sqlx::{mysql::MySqlPoolOptions, MySqlPool};
 use std::sync::Arc;
 
 use crate::{StoreError, DEFAUTL_TABLE_NAME};

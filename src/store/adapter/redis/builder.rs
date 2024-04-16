@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use redis::Client;
+pub use redis::Client;
 
 use crate::StoreError;
 
