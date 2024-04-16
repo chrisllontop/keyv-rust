@@ -100,18 +100,3 @@ jobs:
           command: test
           args: --release --all-features
 
-  publish_crate:
-    if: startsWith(github.ref, 'refs/tags/')
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          override: true
