@@ -1,4 +1,27 @@
-[workspace]
-members = [
-    "crates/keyv",
-]
+[package]
+name = "keyv"
+version = "0.0.2-alpha.1"
+authors = ["Christian Llontop <chrisllontop@icloud.com>,Luis Fernando Miranda <luisfmiranda8@gmail.com>"]
+edition = "2021"
+description = "Simple key-value storage with support for multiple backends"
+repository = "https://github.com/christianllv/keyv-rust"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { version = "1.36", features = ["full"] }
+serde = "1.0"
+serde_json = "1.0"
+async-trait = { version = "0.1", features = [] }
+thiserror = "1.0.58"
+sqlx = { version = "0.6", optional = true }
+log = "0.4.21"
+redis = { version = "0.23.0", optional = true }
+
+[features]
+postgres = ["sqlx/postgres", "sqlx/runtime-tokio-rustls"]
+mysql = ["sqlx/mysql", "sqlx/runtime-tokio-rustls"] 
+redis = ["dep:redis"]
+full = ["postgres", "mysql", "redis"] 
+default = []
