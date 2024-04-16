@@ -1,4 +1,4 @@
-name: Publish to Cargo
+name: Publish to Crates.io
 
 on:
   release:
