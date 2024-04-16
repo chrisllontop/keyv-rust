@@ -9,66 +9,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: my-secret-pw
-          MYSQL_DATABASE: keyv_test
-          MYSQL_USER: user
-          MYSQL_PASSWORD: password
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: keyv_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U postgres"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
-      redis:
-        image: redis:latest
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd="redis-cli ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
-    env:
-      # emit backtraces on panics.
-      RUST_BACKTRACE: 1
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Get the build metadata
-        shell: bash
+
+      - name: Start Services
         run: |
-          echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-          echo "CARGO_VERSION=$(grep -m 1 '^version = ' Cargo.toml | cut -f 3 -d ' ' | tr -d \")" >> $GITHUB_ENV
-      - name: Validate git tag and Cargo.toml version
-        shell: bash
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          if [ "${{ env.TAG_VERSION }}" != "v${{ env.CARGO_VERSION }}" ]; then
-            echo "git tag version (${{ env.TAG_VERSION }}) does not match Cargo.toml version (v${{ env.CARGO_VERSION }})"
-            exit 1
-          fi
+          docker-compose up -d
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -76,22 +26,27 @@ jobs:
           override: true
           profile: minimal
           components: rustfmt, clippy
+
       - uses: swatinem/rust-cache@v2.7.3
+
       - name: Rust fmt
         uses: actions-rs/cargo@v1
         with:
           command: fmt
           args: --all -- --check
+
       - name: Run Clippy
         uses: actions-rs/cargo@v1
         with:
           command: clippy
           args: --all-features
+
       - name: Build release
         uses: actions-rs/cargo@v1
         with:
           command: build
           args: --verbose --all --release --all-features
+
       - name: Run Test
         uses: actions-rs/cargo@v1
         with:
