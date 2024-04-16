@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use sqlx::{postgres::PgPoolOptions, PgPool};
+pub use sqlx::{postgres::PgPoolOptions, PgPool};
 
 use crate::{StoreError, DEFAUTL_TABLE_NAME};
 
