@@ -1,7 +1,7 @@
 #[cfg(feature = "postgres")]
 use keyv::{adapter::postgres::PostgresStoreBuilder, Keyv};
 
-/* To run the test run the docker mysql
+/* To test, run a postgres docker image
 docker run --name keyv-postgres-test \
 -e POSTGRES_USER=postgres \
 -e POSTGRES_PASSWORD=postgres \
