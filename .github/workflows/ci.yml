@@ -3,58 +3,51 @@ name: CI
 on:
   workflow_dispatch:
   pull_request:
-      branches:
-      - main
-  push:
     branches:
       - main
-    tags:
-      - 'v0.[0-9]+.[0-9]+'
-      - 'v0.[0-9]+.[0-9]+-beta.[0-9]+'
-      - 'v0.[0-9]+.[0-9]+-alpha.[0-9]+'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     services:
-          mysql:
-            image: mysql:latest
-            env:
-              MYSQL_ROOT_PASSWORD: my-secret-pw
-              MYSQL_DATABASE: keyv_test
-              MYSQL_USER: user
-              MYSQL_PASSWORD: password
-            ports:
-              - 3306:3306
-            options: >-
-              --health-cmd="mysqladmin ping -h localhost"
-              --health-interval=10s
-              --health-timeout=5s
-              --health-retries=5
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: my-secret-pw
+          MYSQL_DATABASE: keyv_test
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
-          postgres:
-            image: postgres:latest
-            env:
-              POSTGRES_USER: postgres
-              POSTGRES_PASSWORD: postgres
-              POSTGRES_DB: keyv_test
-            ports:
-              - 5432:5432
-            options: >-
-              --health-cmd="pg_isready -U postgres"
-              --health-interval=10s
-              --health-timeout=5s
-              --health-retries=5
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: keyv_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
-          redis:
-            image: redis:latest
-            ports:
-              - 6379:6379
-            options: >-
-              --health-cmd="redis-cli ping"
-              --health-interval=10s
-              --health-timeout=5s
-              --health-retries=5
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     env:
       # emit backtraces on panics.
@@ -99,4 +92,3 @@ jobs:
         with:
           command: test
           args: --release --all-features
-
