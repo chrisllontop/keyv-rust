@@ -6,7 +6,7 @@
 ### Instalation
 
 ```bash
-cargo add  keyv
+cargo add keyv
 ```
 
 #### Features
@@ -14,25 +14,25 @@ cargo add  keyv
 - Full
 
   ```bash
-  cargo add  keyv  --features full
+  cargo add keyv --features full
   ```
 
 - Redis
 
   ```bash
-  cargo add  keyv  --features redis
+  cargo add keyv --features redis
   ```
 
 - Postgres
 
   ```bash
-  cargo add  keyv  --features postgres
+  cargo add keyv --features postgres
   ```
 
 - MySql
 
   ```bash
-  cargo add  keyv  --features mysql
+  cargo add keyv --features mysql
   ```
 
 ### Initialization
