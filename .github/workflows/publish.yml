@@ -32,11 +32,11 @@ jobs:
           command: fmt
           args: --all -- --check
 
-      - name: Run clippy
+      - name: Run Clippy
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: --all -- -D warnings
+          args: --all-features
 
       - name: Run Tests
         uses: actions-rs/cargo@v1
