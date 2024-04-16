@@ -54,7 +54,7 @@ impl Store for RedisStore {
             .map_err(|e| StoreError::SerializationError { source: e })?;
 
         if let Some(expire) = ttl {
-            conn.set_ex(&namespaced_key, value_str, expire as usize)
+            conn.set_ex(&namespaced_key, value_str, expire)
                 .map_err(|e| StoreError::QueryError(e.to_string()))?;
         } else {
             conn.set(&namespaced_key, value_str)
