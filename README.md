@@ -33,7 +33,7 @@ By default, everything is stored in memory, you can optionally also install a st
   ```rust
   let keyv = Keyv::default();
   ```
-- Exmaples
+- Examples
 
   - [x] [Postgres](https://github.com/chrisllontop/keyv-rust/examples/postgres.rs)
   - [x] [Redis](https://github.com/chrisllontop/keyv-rust/examples/redis.rs)
