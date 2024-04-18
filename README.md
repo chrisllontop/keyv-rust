@@ -33,33 +33,16 @@ By default, everything is stored in memory, you can optionally also install a st
   ```rust
   let keyv = Keyv::default();
   ```
-- Postgres
+- Exmaples
 
-  ```rust
-     use keyv::{adapter::postgres::PostgresStoreBuilder, Keyv};
+  - [x] [Postgres](https://github.com/chrisllontop/keyv-rust/examples/postgres.rs)
+  - [x] [Redis](https://github.com/chrisllontop/keyv-rust/examples/redis.rs)
+  - [x] [Mongodb](https://github.com/chrisllontop/keyv-rust/examples/mongodb.rs)
+  - [x] [Sqlite](https://github.com/chrisllontop/keyv-rust/examples/sqlite.rs)
+  - [x] [MySQL](https://github.com/chrisllontop/keyv-rust/examples/mysql.rs)
 
-     let store = PostgresStoreBuilder::new()
-         .uri("postgresql://postgres:postgres@localhost:5432")
-         .table_name("custom_table_name")
-         .build()
-         .await.unwrap();
-
-     let keyv = Keyv::try_new(store).await.unwrap();
   ```
 
-- Redis
-
-  ```rust
-    use keyv::{adapter::redis::RedisStoreBuilder, Keyv};
-
-    let store = RedisStoreBuilder::new()
-        .uri("redis://localhost:6379")
-        .default_ttl(3600)
-        .build()
-        .await
-        .unwrap();
-
-     let keyv = Keyv::try_new(store).await.unwrap();
   ```
 
 ### Interacting with Store
