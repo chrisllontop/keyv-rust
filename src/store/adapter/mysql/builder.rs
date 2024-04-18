@@ -8,7 +8,7 @@ use super::MySqlStore;
 pub struct MySqlStoreBuilder {
     uri: Option<String>,
     pool: Option<Arc<MySqlPool>>,
-    table_name: String,
+    table_name: Option<String>,
 }
 
 impl MySqlStoreBuilder {
@@ -16,12 +16,12 @@ impl MySqlStoreBuilder {
         Self {
             uri: None,
             pool: None,
-            table_name: DEFAUTL_NAMESPACE_NAME.to_string(),
+            table_name: None,
         }
     }
 
     pub fn table_name<S: Into<String>>(mut self, table: S) -> Self {
-        self.table_name = table.into();
+        self.table_name = Some(table.into());
         self
     }
 
@@ -47,10 +47,14 @@ impl MySqlStoreBuilder {
                 })?)
             }
         };
+        let table_name = match &self.table_name {
+            Some(table_name) => table_name.to_string(),
+            None => {
+                log::warn!("Table name not set, using default table name");
+                DEFAUTL_NAMESPACE_NAME.to_string()
+            }
+        };
 
-        Ok(MySqlStore {
-            pool,
-            table_name: self.table_name,
-        })
+        Ok(MySqlStore { pool, table_name })
     }
 }
