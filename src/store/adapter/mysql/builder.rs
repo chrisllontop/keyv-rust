@@ -1,7 +1,7 @@
 pub use sqlx::{mysql::MySqlPoolOptions, MySqlPool};
 use std::sync::Arc;
 
-use crate::{StoreError, DEFAUTL_TABLE_NAME};
+use crate::{StoreError, DEFAUTL_NAMESPACE_NAME};
 
 use super::MySqlStore;
 
@@ -16,7 +16,7 @@ impl MySqlStoreBuilder {
         Self {
             uri: None,
             pool: None,
-            table_name: DEFAUTL_TABLE_NAME.to_string(),
+            table_name: DEFAUTL_NAMESPACE_NAME.to_string(),
         }
     }
 
