@@ -90,9 +90,7 @@ impl Store for MySqlStore {
             .await
             .map_err(|_| StoreError::QueryError("Failed to fetch the value".to_string()))?;
 
-        Ok(result
-            .map(|row| serde_json::from_str(row.get("value")).ok())
-            .flatten())
+        Ok(result.and_then(|row| serde_json::from_str(row.get("value")).ok()))
     }
 
     async fn set(&self, key: &str, value: Value, ttl: Option<u64>) -> Result<(), StoreError> {
