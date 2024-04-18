@@ -50,5 +50,5 @@ async fn main() {
 fn main() {
     println!("This example requires the 'redis' feature to be enabled.");
     println!("Please run the command as follows:");
-    println!("cargo run --example redis --features postggres");
+    println!("cargo run --example redis --features redis");
 }
