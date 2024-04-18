@@ -1,6 +1,6 @@
 [package]
 name = "keyv"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Christian Llontop <chrisllontop@icloud.com>"]
 edition = "2021"
 description = "Simple key-value storage with support for multiple backends"
@@ -18,13 +18,13 @@ thiserror = "1.0.58"
 sqlx = { version = "0.7.4", optional = true }
 log = "0.4.21"
 redis = { version = "0.25.3", optional = true }
-mongodb = { version = "2.8.2", optional = true }  
+mongodb = { version = "2.8.2", optional = true }
 
 [features]
 postgres = ["sqlx/postgres", "sqlx/runtime-tokio-rustls"]
 mysql = ["sqlx/mysql", "sqlx/runtime-tokio-rustls"]
 sqlite = ["sqlx/sqlite", "sqlx/runtime-tokio-native-tls"]  # Add this line
 redis = ["dep:redis"]
-mongo = ["mongodb"] 
-full = ["postgres", "mysql", "sqlite", "redis", "mongo"] 
+mongo = ["mongodb"]
+full = ["postgres", "mysql", "sqlite", "redis", "mongo"]
 default = []
