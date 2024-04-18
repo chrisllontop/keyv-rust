@@ -1,6 +1,6 @@
 [package]
 name = "keyv"
-version = "0.0.2-alpha.1"
+version = "0.1.0"
 authors = ["Christian Llontop <chrisllontop@icloud.com>"]
 edition = "2021"
 description = "Simple key-value storage with support for multiple backends"

@@ -1,9 +1,3 @@
-<h1 align="center">
-	<img width="250" src="https://jaredwray.com/images/keyv.svg" alt="keyv">
-	<br>
-	<br>
-</h1>
-
 > Simple key-value storage with support for multiple backends
 > Keyv provides a consistent interface for key-value storage across multiple backends via storage adapters. It supports TTL based expiry, making it suitable as a cache or a persistent key-value store.
 
@@ -12,7 +6,7 @@
 ### Instalation
 
 ```bash
-cargo add  keyv
+cargo add keyv
 ```
 
 #### Features
@@ -20,25 +14,25 @@ cargo add  keyv
 - Full
 
   ```bash
-  cargo add  keyv  --features full
+  cargo add keyv --features full
   ```
 
 - Redis
 
   ```bash
-  cargo add  keyv  --features redis
+  cargo add keyv --features redis
   ```
 
 - Postgres
 
   ```bash
-  cargo add  keyv  --features postgres
+  cargo add keyv --features postgres
   ```
 
 - MySql
 
   ```bash
-  cargo add  keyv  --features mysql
+  cargo add keyv --features mysql
   ```
 
 ### Initialization
