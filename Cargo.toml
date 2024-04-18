@@ -4,7 +4,9 @@ version = "0.2.1"
 authors = ["Christian Llontop <chrisllontop@icloud.com>"]
 edition = "2021"
 description = "Simple key-value storage with support for multiple backends"
+keywords = ["key-value", "cache", "store", "storage", "async"]
 repository = "https://github.com/chrisllontop/keyv-rust"
+documentation = "https://docs.rs/keyv"
 license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
