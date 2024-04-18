@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 pub use sqlx::{postgres::PgPoolOptions, PgPool};
 
-use crate::{StoreError, DEFAUTL_TABLE_NAME};
+use crate::{StoreError, DEFAUTL_NAMESPACE_NAME};
 
 use super::PostgresStore;
 
@@ -63,7 +63,7 @@ impl PostgresStoreBuilder {
         Self {
             uri: None,
             pool: None,
-            table_name: DEFAUTL_TABLE_NAME.to_string(),
+            table_name: DEFAUTL_NAMESPACE_NAME.to_string(),
             schema: None,
         }
     }
