@@ -41,17 +41,17 @@ impl Store for InMemoryStore {
         Ok(())
     }
 
-    async fn clear(&self) -> Result<(), StoreError> {
-        let mut db_lock = self.db.lock().await;
-        db_lock.clear();
-        Ok(())
-    }
-
     async fn remove_many(&self, keys: &[&str]) -> Result<(), StoreError> {
         let mut db_lock = self.db.lock().await;
         for key in keys {
             db_lock.remove(&key.to_string());
         }
+        Ok(())
+    }
+
+    async fn clear(&self) -> Result<(), StoreError> {
+        let mut db_lock = self.db.lock().await;
+        db_lock.clear();
         Ok(())
     }
 }
