@@ -35,6 +35,18 @@ cargo add keyv
   cargo add keyv --features mysql
   ```
 
+- MongoDB
+
+  ```bash
+  cargo add keyv --features mongo
+  ```
+
+- Sqlite
+
+  ```bash
+  cargo add keyv --features sqlite
+  ```
+
 ### Initialization
 
 By default everything is stored in memory, you can optionally also install a storage adapter.
