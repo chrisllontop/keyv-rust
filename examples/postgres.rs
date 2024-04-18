@@ -54,5 +54,5 @@ async fn main() {
 fn main() {
     println!("This example requires the 'postgres' feature to be enabled.");
     println!("Please run the command as follows:");
-    println!("cargo run --example postgres --features postggres");
+    println!("cargo run --example postgres --features postgres");
 }
