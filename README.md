@@ -1,5 +1,6 @@
 > Simple key-value storage with support for multiple backends
-> Keyv provides a consistent interface for key-value storage across multiple backends via storage adapters. It supports TTL based expiry, making it suitable as a cache or a persistent key-value store.
+> Keyv provides a consistent interface for key-value storage across multiple backends via storage adapters. It supports
+> TTL based expiry, making it suitable as a cache or a persistent key-value store.
 
 ## Usage
 
@@ -9,35 +10,24 @@
 cargo add keyv
 ```
 
-#### Features
+#### Store Adapters
 
-- Full
+Keyv supports multiple store adapters, you can enable them by specifying the feature flag.
 
-  ```bash
-  cargo add keyv --features full
-  ```
+- **full**: Enables all available adapters.
+- **redis**: Redis store adapter.
+- **postgres**: PostgreSQL store adapter.
+- **mysql**: MySQL store adapter.
+- **mongodb**: MongoDB store adapter.
+- **sqlite**: SQLite store adapter.
 
-- Redis
-
-  ```bash
-  cargo add keyv --features redis
-  ```
-
-- Postgres
-
-  ```bash
-  cargo add keyv --features postgres
-  ```
-
-- MySql
-
-  ```bash
-  cargo add keyv --features mysql
-  ```
+```bash
+cargo add keyv --features <store>
+```
 
 ### Initialization
 
-By default everything is stored in memory, you can optionally also install a storage adapter.
+By default, everything is stored in memory, you can optionally also install a storage adapter.
 
 - Inmemory default
   ```rust
