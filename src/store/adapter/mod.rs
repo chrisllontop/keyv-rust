@@ -10,4 +10,7 @@ pub mod mysql;
 #[cfg(feature = "mongodb")]
 pub mod mongodb;
 
+#[cfg(feature = "sqlite")]
+pub mod sqlite;
+
 pub mod inmemory;
