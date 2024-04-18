@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use mongodb::{options::ClientOptions, Client};
+pub use mongodb::{options::ClientOptions, Client};
 
 use crate::{StoreError, DEFAUTL_NAMESPACE_NAME};
 
