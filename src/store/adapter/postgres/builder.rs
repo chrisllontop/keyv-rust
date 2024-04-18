@@ -50,7 +50,7 @@ use super::PostgresStore;
 pub struct PostgresStoreBuilder {
     uri: Option<String>,
     pool: Option<Arc<PgPool>>,
-    table_name: String,
+    table_name: Option<String>,
     schema: Option<String>,
 }
 
@@ -63,7 +63,7 @@ impl PostgresStoreBuilder {
         Self {
             uri: None,
             pool: None,
-            table_name: DEFAUTL_NAMESPACE_NAME.to_string(),
+            table_name: None,
             schema: None,
         }
     }
@@ -90,7 +90,7 @@ impl PostgresStoreBuilder {
     ///
     /// * `table` - The name of the table used to store key-value pairs.
     pub fn table_name<S: Into<String>>(mut self, table: S) -> Self {
-        self.table_name = table.into();
+        self.table_name = Some(table.into());
         self
     }
     /// Sets the database URI for connecting to the PostgreSQL database.
@@ -140,9 +140,17 @@ impl PostgresStoreBuilder {
             }
         };
 
+        let table_name = match &self.table_name {
+            Some(table_name) => table_name.to_string(),
+            None => {
+                log::warn!("Table name not set, using default table name");
+                DEFAUTL_NAMESPACE_NAME.to_string()
+            }
+        };
+
         Ok(PostgresStore {
             pool,
-            table_name: self.table_name,
+            table_name,
             schema: self.schema,
         })
     }
