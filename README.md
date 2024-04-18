@@ -10,16 +10,17 @@
 cargo add keyv
 ```
 
-#### Store Adapters
+### Store Adapters
 
 Keyv supports multiple store adapters, you can enable them by specifying the feature flag.
 
 - **full**: Enables all available adapters.
-- **redis**: Redis store adapter.
-- **postgres**: PostgreSQL store adapter.
-- **mysql**: MySQL store adapter.
-- **mongodb**: MongoDB store adapter.
-- **sqlite**: SQLite store adapter.
+- **[redis](https://github.com/chrisllontop/keyv-rust/tree/main/src/store/adapter/redis)**: Redis store adapter.
+- **[postgres](https://github.com/chrisllontop/keyv-rust/tree/main/src/store/adapter/postgres)**: PostgreSQL store
+  adapter.
+- **[mysql](https://github.com/chrisllontop/keyv-rust/tree/main/src/store/adapter/mysql)**: MySQL store adapter.
+- **[mongodb](https://github.com/chrisllontop/keyv-rust/tree/main/src/store/adapter/mongodb)**: MongoDB store adapter.
+- **[sqlite](https://github.com/chrisllontop/keyv-rust/tree/main/src/store/adapter/sqlite)**: SQLite store adapter.
 
 ```bash
 cargo add keyv --features <store>
@@ -29,21 +30,17 @@ cargo add keyv --features <store>
 
 By default, everything is stored in memory, you can optionally also install a storage adapter.
 
-- Inmemory default
+- Inmemory (default)
   ```rust
   let keyv = Keyv::default();
   ```
-- Examples
+- Store Adapters examples
 
-  - [x] [Postgres](https://github.com/chrisllontop/keyv-rust/examples/postgres.rs)
-  - [x] [Redis](https://github.com/chrisllontop/keyv-rust/examples/redis.rs)
-  - [x] [Mongodb](https://github.com/chrisllontop/keyv-rust/examples/mongodb.rs)
-  - [x] [Sqlite](https://github.com/chrisllontop/keyv-rust/examples/sqlite.rs)
-  - [x] [MySQL](https://github.com/chrisllontop/keyv-rust/examples/mysql.rs)
-
-  ```
-
-  ```
+    - [Postgres](https://github.com/chrisllontop/keyv-rust/tree/main/examples/postgres.rs)
+    - [Redis](https://github.com/chrisllontop/keyv-rust/tree/main/examples/redis.rs)
+    - [Mongodb](https://github.com/chrisllontop/keyv-rust/tree/main/examples/mongodb.rs)
+    - [Sqlite](https://github.com/chrisllontop/keyv-rust/tree/main/examples/sqlite.rs)
+    - [MySQL](https://github.com/chrisllontop/keyv-rust/tree/main/examples/mysql.rs)
 
 ### Interacting with Store
 
