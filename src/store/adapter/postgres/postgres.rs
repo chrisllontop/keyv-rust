@@ -11,6 +11,7 @@ pub struct PostgresStore {
     pub(crate) table_name: String,
     pub(crate) schema: Option<String>,
 }
+
 impl PostgresStore {
     fn get_table_name(&self) -> String {
         match &self.schema {
@@ -63,9 +64,7 @@ impl Store for PostgresStore {
             .await
             .map_err(|_| StoreError::QueryError("Failed to fetch the value".to_string()))?;
 
-        Ok(result
-            .map(|row| serde_json::from_str(row.get("value")).ok())
-            .flatten())
+        Ok(result.and_then(|row| serde_json::from_str(row.get("value")).ok()))
     }
 
     async fn set(&self, key: &str, value: Value, ttl: Option<u64>) -> Result<(), StoreError> {
@@ -105,7 +104,7 @@ impl Store for PostgresStore {
         let query = format!("DELETE FROM {} WHERE key = ANY($1)", self.get_table_name());
 
         sqlx::query(&query)
-            .bind(&keys)
+            .bind(keys)
             .execute(&*self.pool)
             .await
             .map_err(|_| StoreError::QueryError("Failed to remove the keys".to_string()))?;
