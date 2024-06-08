@@ -2,6 +2,10 @@ name: Build and Test
 
 on:
   workflow_call:
+    inputs:
+      CODECOV_TOKEN:
+        required: true
+        type: string
 
 jobs:
   build_and_test:
