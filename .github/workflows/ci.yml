@@ -10,7 +10,7 @@ on:
       - coverage
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -48,7 +48,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --verbose --all --release --all-features
+          args: --all --release --all-features
 
       - name: Run Test
         uses: actions-rs/cargo@v1
