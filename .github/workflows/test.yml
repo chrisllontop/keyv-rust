@@ -2,10 +2,9 @@ name: Build and Test
 
 on:
   workflow_call:
-    inputs:
+    secrets:
       CODECOV_TOKEN:
         required: true
-        type: string
 
 jobs:
   build_and_test:
@@ -51,5 +50,5 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-          token: ${{ inputs.CODECOV_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage/cobertura.xml
