@@ -22,6 +22,12 @@ log = "0.4.21"
 redis = { version = "0.25.3", optional = true }
 mongodb = { version = "2.8.2", optional = true }
 
+[dev-dependencies]
+cargo-tarpaulin = "0.30.0"
+
+[package.metadata.tarpaulin]
+report = "json"
+
 [features]
 postgres = ["sqlx/postgres", "sqlx/runtime-tokio-rustls"]
 mysql = ["sqlx/mysql", "sqlx/runtime-tokio-rustls"]
