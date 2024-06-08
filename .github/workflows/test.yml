@@ -38,6 +38,9 @@ jobs:
           command: clippy
           args: --all-features
 
+      - name: Install Tarpaulin
+        run: cargo install cargo-tarpaulin
+
       - name: Run tests with coverage
         run: cargo tarpaulin --out Xml --output-dir coverage
 
