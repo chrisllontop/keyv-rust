@@ -6,49 +6,8 @@ on:
       - created
 
 jobs:
-  build_and_test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Start services
-        run: |
-          docker-compose up -d
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          components: rustfmt, clippy
-
-      - uses: swatinem/rust-cache@v2.7.3
-
-      - name: Run fmt
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
-
-      - name: Run Clippy
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: --all-features
-
-      - name: Run Tests
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --all
-
-      - name: Build Release
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release
+  test:
+    uses: ./.github/workflows/test.yml
 
   publish_to_cargo:
     needs: build_and_test

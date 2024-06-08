@@ -4,3 +4,5 @@
 .vscode
 .idea
 .fleet
+/build_rs_cov.profraw
+coverage/
