@@ -15,4 +15,4 @@ concurrency:
 
 jobs:
   build_and_test:
-    uses: ./.github/workflows/workflow-common.yml@main
+    uses: ./.github/workflows/workflow-common.yml

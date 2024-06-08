@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_and_test:
-    uses: ./.github/workflows/test.yml@main
+    uses: ./.github/workflows/test.yml
 
   publish_to_cargo:
     needs: build_and_test
