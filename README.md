@@ -3,6 +3,7 @@
 Simple key-value storage with support for multiple backends.
 
 [![Crates.io](https://img.shields.io/crates/v/keyv)](https://crates.io/crates/keyv)
+[![codecov](https://codecov.io/gh/chrisllontop/keyv-rust/graph/badge.svg?token=H6FQLQ2LGY)](https://codecov.io/gh/chrisllontop/keyv-rust)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/chrisllontop/keyv-rust/ci.yml)
 ![GitHub Repo stars](https://img.shields.io/github/stars/chrisllontop/keyv-rust)
 ![Crates.io Total Downloads](https://img.shields.io/crates/d/keyv)
