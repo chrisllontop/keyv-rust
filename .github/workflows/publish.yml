@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     uses: ./.github/workflows/test.yml
+    secrets: inherit
 
   publish_to_cargo:
     needs: build_and_test
