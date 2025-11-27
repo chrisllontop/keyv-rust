@@ -20,7 +20,7 @@ thiserror = "2.0.17"
 sqlx = { version = "0.8.6", optional = true }
 log = "0.4.28"
 redis = { version = "0.32.7", optional = true }
-mongodb = { version = "2.8.2", optional = true }
+mongodb = { version = "3.4.1", optional = true }
 
 [dev-dependencies]
 cargo-tarpaulin = "0.33.0"
