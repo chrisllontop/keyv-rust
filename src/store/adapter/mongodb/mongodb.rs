@@ -34,7 +34,7 @@ impl Store for MongoStore {
         let coll = self.get_collection();
         let filter = doc! { "key": key };
         let result = coll
-            .find_one(filter, None)
+            .find_one(filter)
             .await
             .map_err(|e| StoreError::QueryError(e.to_string()))?;
 
@@ -58,11 +58,8 @@ impl Store for MongoStore {
             "value": value_str
         };
 
-        let replace_options = mongodb::options::ReplaceOptions::builder()
+        coll.replace_one(doc! { "key": key }, doc)
             .upsert(true)
-            .build();
-
-        coll.replace_one(doc! { "key": key }, doc, replace_options)
             .await
             .map(|replace_result| {
                 if replace_result.upserted_id.is_some() {
@@ -77,7 +74,7 @@ impl Store for MongoStore {
 
     async fn remove(&self, key: &str) -> Result<(), StoreError> {
         let coll = self.get_collection();
-        coll.delete_one(doc! { "key": key }, None)
+        coll.delete_one(doc! { "key": key })
             .await
             .map(|_| ())
             .map_err(|_| StoreError::QueryError("Failed to remove the key".to_string()))
@@ -85,7 +82,7 @@ impl Store for MongoStore {
 
     async fn remove_many(&self, keys: &[&str]) -> Result<(), StoreError> {
         let coll = self.get_collection();
-        coll.delete_many(doc! { "key": { "$in": keys } }, None)
+        coll.delete_many(doc! { "key": { "$in": keys } })
             .await
             .map(|_| ())
             .map_err(|_| StoreError::QueryError("Failed to remove the keys".to_string()))
@@ -93,7 +90,7 @@ impl Store for MongoStore {
 
     async fn clear(&self) -> Result<(), StoreError> {
         let coll = self.get_collection();
-        coll.delete_many(doc! {}, None)
+        coll.delete_many(doc! {})
             .await
             .map(|_| ())
             .map_err(|_| StoreError::QueryError("Failed to clear the collection".to_string()))

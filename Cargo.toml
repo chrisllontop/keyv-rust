@@ -12,18 +12,18 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = { version = "1.36", features = ["full"] }
-serde = "1.0"
-serde_json = "1.0"
-async-trait = { version = "0.1", features = [] }
-thiserror = "1.0.59"
-sqlx = { version = "0.7.4", optional = true }
-log = "0.4.21"
-redis = { version = "0.25.3", optional = true }
-mongodb = { version = "2.8.2", optional = true }
+tokio = { version = "1.48.0", features = ["full"] }
+serde = "1.0.228"
+serde_json = "1.0.145"
+async-trait = { version = "0.1.89", features = [] }
+thiserror = "2.0.17"
+sqlx = { version = "0.8.6", optional = true }
+log = "0.4.28"
+redis = { version = "0.32.7", optional = true }
+mongodb = { version = "3.4.1", optional = true }
 
 [dev-dependencies]
-cargo-tarpaulin = "0.30.0"
+cargo-tarpaulin = "0.33.0"
 
 [package.metadata.tarpaulin]
 report = "json"

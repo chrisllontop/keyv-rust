@@ -48,4 +48,43 @@ async fn test_keyv_mysql() {
         }
         None => assert!(false),
     }
+    // Test remove
+    keyv.remove("number").await.unwrap();
+    match keyv.get("number").await.unwrap() {
+        Some(_) => assert!(false, "number should have been removed"),
+        None => {}
+    }
+
+    // Test remove_many
+    keyv.set("key0", "value0").await.unwrap();
+    keyv.remove_many(&["string", "array"]).await.unwrap();
+    match keyv.get("string").await.unwrap() {
+        Some(_) => assert!(false, "string should have been removed"),
+        None => {}
+    }
+    match keyv.get("array").await.unwrap() {
+        Some(_) => assert!(false, "array should have been removed"),
+        None => {}
+    }
+    match keyv.get("key0").await.unwrap() {
+        Some(_) => {}
+        None => assert!(false, "key0 shouldn't have been removed"),
+    }
+
+    // Test clear
+    keyv.set("key1", "value1").await.unwrap();
+    keyv.set("key2", "value2").await.unwrap();
+    keyv.clear().await.unwrap();
+    match keyv.get("key0").await.unwrap() {
+        Some(_) => assert!(false, "key0 should have been removed"),
+        None => {}
+    }
+    match keyv.get("key1").await.unwrap() {
+        Some(_) => assert!(false, "key1 should have been removed after clear"),
+        None => {}
+    }
+    match keyv.get("key2").await.unwrap() {
+        Some(_) => assert!(false, "key2 should have been removed after clear"),
+        None => {}
+    }
 }

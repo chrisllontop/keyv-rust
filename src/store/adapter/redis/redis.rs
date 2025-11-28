@@ -54,10 +54,10 @@ impl Store for RedisStore {
             .map_err(|e| StoreError::SerializationError { source: e })?;
 
         if let Some(expire) = ttl {
-            conn.set_ex(&namespaced_key, value_str, expire)
+            conn.set_ex::<_, _, ()>(&namespaced_key, value_str, expire)
                 .map_err(|e| StoreError::QueryError(e.to_string()))?;
         } else {
-            conn.set(&namespaced_key, value_str)
+            conn.set::<_, _, ()>(&namespaced_key, value_str)
                 .map_err(|e| StoreError::QueryError(e.to_string()))?;
         }
         Ok(())
@@ -68,7 +68,7 @@ impl Store for RedisStore {
             .client
             .get_connection()
             .map_err(|e| StoreError::ConnectionError(e.to_string()))?;
-        conn.del(self.get_key(key))
+        conn.del::<_, ()>(self.get_key(key))
             .map_err(|e| StoreError::QueryError(e.to_string()))?;
         Ok(())
     }
@@ -81,13 +81,33 @@ impl Store for RedisStore {
 
         let namespaced_keys: Vec<String> = keys.iter().map(|key| self.get_key(key)).collect();
 
-        conn.del(namespaced_keys)
-            .map_err(|e| StoreError::QueryError(e.to_string()))?;
+        if !namespaced_keys.is_empty() {
+            conn.del::<_, ()>(namespaced_keys)
+                .map_err(|e| StoreError::QueryError(e.to_string()))?;
+        }
         Ok(())
     }
 
     async fn clear(&self) -> Result<(), StoreError> {
-        log::warn!("Clearing the Redis store is not supported.");
+        let mut conn = self
+            .client
+            .get_connection()
+            .map_err(|e| StoreError::ConnectionError(e.to_string()))?;
+
+        if let Some(ref ns) = self.namespace {
+            let pattern = format!("{}:*", ns);
+            let keys: Vec<String> = conn
+                .keys(&pattern)
+                .map_err(|e| StoreError::QueryError(e.to_string()))?;
+            if !keys.is_empty() {
+                conn.del::<_, ()>(keys)
+                    .map_err(|e| StoreError::QueryError(e.to_string()))?;
+            }
+        } else {
+            redis::cmd("FLUSHDB")
+                .query::<()>(&mut conn)
+                .map_err(|e| StoreError::QueryError(e.to_string()))?;
+        }
         Ok(())
     }
 }

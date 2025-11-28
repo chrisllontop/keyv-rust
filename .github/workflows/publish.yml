@@ -11,7 +11,7 @@ jobs:
     secrets: inherit
 
   publish_to_cargo:
-    needs: build_and_test
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
