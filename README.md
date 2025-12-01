@@ -41,9 +41,7 @@ By default, everything is stored in memory, you can optionally also install a st
 
 - Inmemory (default)
   ```rust
-
-let keyv = Keyv::default();
-
+  let keyv = Keyv::default();
   ```
 - Store Adapters examples
 
@@ -56,7 +54,6 @@ let keyv = Keyv::default();
 ### Interacting with Store
 
 ```rust
-
 use keyv::Keyv;
 
 #[tokio::main]
