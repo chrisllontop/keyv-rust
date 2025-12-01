@@ -1,6 +1,6 @@
 [package]
 name = "keyv"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["Christian Llontop <chrisllontop@icloud.com>"]
 edition = "2021"
 description = "Simple key-value storage with support for multiple backends"
@@ -31,7 +31,7 @@ report = "json"
 [features]
 postgres = ["sqlx/postgres", "sqlx/runtime-tokio-rustls"]
 mysql = ["sqlx/mysql", "sqlx/runtime-tokio-rustls"]
-sqlite = ["sqlx/sqlite", "sqlx/runtime-tokio-native-tls"]  # Add this line
+sqlite = ["sqlx/sqlite", "sqlx/runtime-tokio-native-tls"] # Add this line
 redis = ["dep:redis"]
 mongo = ["mongodb"]
 full = ["postgres", "mysql", "sqlite", "redis", "mongo"]
