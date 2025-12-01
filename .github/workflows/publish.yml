@@ -48,6 +48,8 @@ jobs:
         with:
           commit_message: "Bump version to ${{ steps.get_version.outputs.VERSION }}"
           file_pattern: 'Cargo.toml Cargo.lock'
+          branch: main
+          push_options: '--force'
 
       - name: Publish to Cargo
         uses: actions-rs/cargo@v1
